@@ -33,13 +33,13 @@ public class Duke {
             if (line.equalsIgnoreCase("bye")) {
                 break;
             }
-            if (line.equalsIgnoreCase("list")){
+            if (line.equalsIgnoreCase("list")) {
                 displayList();
                 continue;
             }
-            if (line.contains("done")){
+            if (line.contains("done")) {
                 taskNumber = Integer.parseInt(line.replace("done", " ").trim());
-                setTaskToDone(taskNumber-1);
+                setTaskToDone(taskNumber - 1);
                 continue;
             }
             storeText(line);
@@ -50,7 +50,7 @@ public class Duke {
         System.out.println("\t____________________________________________________________");
     }
 
-    public static void storeText(String text){
+    public static void storeText(String text) {
         taskList[textCount] = text;
         System.out.println("\t____________________________________________________________");
         System.out.println("\tAdded: " + text);
@@ -72,15 +72,15 @@ public class Duke {
         System.out.println("\t____________________________________________________________");
     }
 
-    public static String getStatusIcon(int index){
-        if(taskListStatus[index-1] == 1){
+    public static String getStatusIcon(int index) {
+        if (taskListStatus[index - 1] == 1) {
             return "\u2713";
         } else {
             return "\u2718";
         }
     }
 
-    public static void setTaskToDone(int taskNumber){
+    public static void setTaskToDone(int taskNumber) {
         taskListStatus[taskNumber] = 1;
         System.out.println("\t____________________________________________________________");
         System.out.println("\tNice! I've marked this task as done:");
