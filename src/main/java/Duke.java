@@ -1,4 +1,5 @@
 import java.util.Scanner;
+
 public class Duke {
     public static void main(String[] args) {
         String logo = " ____        _        \n"
@@ -15,14 +16,14 @@ public class Duke {
         Duke.commandEcho();
     }
 
-    public static void commandEcho () {
+    public static void commandEcho() {
         //different response for different types of command
         String line;
         Scanner in;
-        while(true){
+        while (true) {
             in = new Scanner(System.in);
             line = in.nextLine();
-            if(line.equalsIgnoreCase("bye")){
+            if (line.equalsIgnoreCase("bye")) {
                 break;
             }
             System.out.println("\t____________________________________________________________");
