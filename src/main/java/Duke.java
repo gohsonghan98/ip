@@ -3,8 +3,7 @@ import java.util.Scanner;
 public class Duke {
     private static int textCount;
     private final static int MAX_TASK = 100;
-    private static String[] taskList = new String[MAX_TASK];
-    private static int[] taskListStatus = new int[MAX_TASK];
+    private static Task[] taskList = new Task[MAX_TASK];
 
     public static void main(String[] args) {
         String logo = " ____        _        \n"
@@ -38,8 +37,8 @@ public class Duke {
                 continue;
             }
             if (line.contains("done")) {
-                taskNumber = Integer.parseInt(line.replace("done", " ").trim());
-                setTaskToDone(taskNumber - 1);
+                taskNumber = Integer.parseInt(line.replaceAll("[^\\d]", " ").trim());
+                taskList[taskNumber - 1].setDone();
                 continue;
             }
             storeText(line);
@@ -51,7 +50,7 @@ public class Duke {
     }
 
     public static void storeText(String text) {
-        taskList[textCount] = text;
+        taskList[textCount] = new Task(text);
         System.out.println("\t____________________________________________________________");
         System.out.println("\tAdded: " + text);
         System.out.println("\t____________________________________________________________");
@@ -62,29 +61,13 @@ public class Duke {
         int index = 1;
         System.out.println("\t____________________________________________________________");
         System.out.println("\tHere are the tasks in your list:");
-        for (String listTask : taskList) {
+        for (Task listTask : taskList) {
             if (listTask == null) {
                 break;
             }
-            System.out.println("\t" + index + "." + "[" + getStatusIcon(index) + "] " + listTask);
+            System.out.println("\t" + index + "." + "[" + listTask.getStatusIcon() + "] " + listTask);
             index++;
         }
-        System.out.println("\t____________________________________________________________");
-    }
-
-    public static String getStatusIcon(int index) {
-        if (taskListStatus[index - 1] == 1) {
-            return "\u2713";
-        } else {
-            return "\u2718";
-        }
-    }
-
-    public static void setTaskToDone(int taskNumber) {
-        taskListStatus[taskNumber] = 1;
-        System.out.println("\t____________________________________________________________");
-        System.out.println("\tNice! I've marked this task as done:");
-        System.out.println("\t[" + getStatusIcon(1) + "] " + taskList[taskNumber]);
         System.out.println("\t____________________________________________________________");
     }
 
