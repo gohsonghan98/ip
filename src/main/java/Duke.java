@@ -24,10 +24,9 @@ public class Duke {
     public static void executeCommand() {
         // Execute different response for different types of command
         String line;
-        Scanner in;
+        Scanner in = new Scanner(System.in);
         int taskNumber;
         while (true) {
-            in = new Scanner(System.in);
             line = in.nextLine();
             if (line.equalsIgnoreCase("bye")) {
                 break;

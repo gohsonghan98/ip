@@ -1,0 +1,3 @@
+deadline Finish Homework \by 4pm
+event Attend Lesson \at 6pm
+todo Watch TV
