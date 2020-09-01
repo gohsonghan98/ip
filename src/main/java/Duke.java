@@ -77,8 +77,6 @@ public class Duke {
             printTaskAssignment(taskCount);
             taskCount++;
         }
-
-
     }
 
     public static void displayList() {
@@ -89,7 +87,8 @@ public class Duke {
             if (listTask == null) {
                 break;
             }
-            System.out.println("\t " + index + "." + "[" + listTask.getTaskSymbol() + "]" + "[" + listTask.getStatusIcon() + "] " + listTask);
+            System.out.println("\t " + index + "." + "[" + listTask.getTaskSymbol() + "]" + "["
+                    + listTask.getStatusIcon() + "] " + listTask);
             index++;
         }
         System.out.println("\t____________________________________________________________");
@@ -99,10 +98,9 @@ public class Duke {
         int taskIndex = index + 1;
         System.out.println("\t____________________________________________________________");
         System.out.println("\t Got it. I've added this task:");
-        System.out.println("\t\t" + "[" + taskList[index].getTaskSymbol() + "]" + "[" + taskList[index].getStatusIcon() + "]" +
-                " " + taskList[index]);
+        System.out.println("\t\t" + "[" + taskList[index].getTaskSymbol() + "]" + "[" + taskList[index].getStatusIcon()
+                + "]" + " " + taskList[index]);
         System.out.println("\t Now you have " + taskIndex + " tasks in the list.");
         System.out.println("\t____________________________________________________________");
     }
-
 }

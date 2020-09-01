@@ -1,5 +1,4 @@
 public class Task{
-
     public String taskEntry;
     public boolean isDone;
     public String statusIcon;
