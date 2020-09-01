@@ -14,8 +14,8 @@ public class Task{
         isDone = true;
         statusIcon = "\u2713";
         System.out.println("\t____________________________________________________________");
-        System.out.println("\tNice! I've marked this task as done:");
-        System.out.println("\t[" + statusIcon + "] " + taskEntry);
+        System.out.println("\t Nice! I've marked this task as done:");
+        System.out.println("\t [" + statusIcon + "] " + taskEntry);
         System.out.println("\t____________________________________________________________");
     }
 
@@ -26,5 +26,9 @@ public class Task{
 
     public String getStatusIcon(){
         return statusIcon;
+    }
+
+    public String getTaskSymbol(){
+        return null;
     }
 }

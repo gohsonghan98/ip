@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Duke {
-    private static int textCount;
+    private static int taskCount;
     private final static int MAX_TASK = 100;
     private static Task[] taskList = new Task[MAX_TASK];
 
@@ -45,29 +45,63 @@ public class Duke {
         }
 
         System.out.println("\t____________________________________________________________");
-        System.out.println("\tBye. Hope to see you again soon!");
+        System.out.println("\t Bye. Hope to see you again soon!");
         System.out.println("\t____________________________________________________________");
     }
 
     public static void storeText(String text) {
-        taskList[textCount] = new Task(text);
-        System.out.println("\t____________________________________________________________");
-        System.out.println("\tAdded: " + text);
-        System.out.println("\t____________________________________________________________");
-        textCount++;
+        String task;
+        String at;
+        String by;
+
+        //Assign deadline task
+        if(text.startsWith("deadline")){
+            task = text.substring(9,text.indexOf(" \\by"));
+            by = text.substring(text.indexOf("\\by") + 4, text.length());
+            taskList[taskCount] = new Deadline(task, by);
+            printTaskAssignment(taskCount);
+            taskCount++;
+
+        }   else if(text.startsWith("event")){
+            //Assign event task
+            task = text.substring(6,text.indexOf(" \\at"));
+            at = text.substring(text.indexOf("\\at") + 4, text.length());
+            taskList[taskCount] = new Event(task, at);
+            printTaskAssignment(taskCount);
+            taskCount++;
+
+        }   else if (text.startsWith("todo")){
+            //Assign todos task
+            task = text.replace("todo ", "");
+            taskList[taskCount] = new Todo(task);
+            printTaskAssignment(taskCount);
+            taskCount++;
+        }
+
+
     }
 
     public static void displayList() {
         int index = 1;
         System.out.println("\t____________________________________________________________");
-        System.out.println("\tHere are the tasks in your list:");
+        System.out.println("\t Here are the tasks in your list:");
         for (Task listTask : taskList) {
             if (listTask == null) {
                 break;
             }
-            System.out.println("\t" + index + "." + "[" + listTask.getStatusIcon() + "] " + listTask);
+            System.out.println("\t " + index + "." + "[" + listTask.getTaskSymbol() + "]" + "[" + listTask.getStatusIcon() + "] " + listTask);
             index++;
         }
+        System.out.println("\t____________________________________________________________");
+    }
+
+    public static void printTaskAssignment(int index){
+        int taskIndex = index + 1;
+        System.out.println("\t____________________________________________________________");
+        System.out.println("\t Got it. I've added this task:");
+        System.out.println("\t\t" + "[" + taskList[index].getTaskSymbol() + "]" + "[" + taskList[index].getStatusIcon() + "]" +
+                " " + taskList[index]);
+        System.out.println("\t Now you have " + taskIndex + " tasks in the list.");
         System.out.println("\t____________________________________________________________");
     }
 
