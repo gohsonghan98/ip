@@ -40,7 +40,19 @@ public class Duke {
                 taskList[taskNumber - 1].setDone();
                 continue;
             }
-            storeText(line);
+            try {
+                storeText(line);
+            } catch (DukeException e) {
+                System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-()");
+            } catch (StringIndexOutOfBoundsException e) {
+                if (line.startsWith("deadline")) {
+                    System.out.println("☹ OOPS!!! The description of a deadline cannot be empty.");
+                } else if (line.startsWith("event")) {
+                    System.out.println("☹ OOPS!!! The description of a event cannot be empty.");
+                } else if (line.startsWith("todo")) {
+                    System.out.println("☹ OOPS!!! The description of a todo cannot be empty.");
+                }
+            }
         }
 
         System.out.println("\t____________________________________________________________");
@@ -48,33 +60,38 @@ public class Duke {
         System.out.println("\t____________________________________________________________");
     }
 
-    public static void storeText(String text) {
+    public static void storeText(String text) throws DukeException {
         String task;
         String at;
         String by;
 
         //Assign deadline task
-        if(text.startsWith("deadline")){
-            task = text.substring(9,text.indexOf(" \\by"));
+        if (text.startsWith("deadline")) {
+            task = text.substring(9, text.indexOf(" \\by"));
             by = text.substring(text.indexOf("\\by") + 4, text.length());
             taskList[taskCount] = new Deadline(task, by);
             printTaskAssignment(taskCount);
             taskCount++;
 
-        }   else if(text.startsWith("event")){
+        } else if (text.startsWith("event")) {
             //Assign event task
-            task = text.substring(6,text.indexOf(" \\at"));
+            task = text.substring(6, text.indexOf(" \\at"));
             at = text.substring(text.indexOf("\\at") + 4, text.length());
             taskList[taskCount] = new Event(task, at);
             printTaskAssignment(taskCount);
             taskCount++;
 
-        }   else if (text.startsWith("todo")){
+        } else if (text.startsWith("todo")) {
             //Assign todos task
-            task = text.replace("todo ", "");
+            task = text.replace("todo", "");
+            if (task.length() < 1) {
+                throw new StringIndexOutOfBoundsException();
+            }
             taskList[taskCount] = new Todo(task);
             printTaskAssignment(taskCount);
             taskCount++;
+        } else {
+            throw new DukeException();
         }
     }
 
@@ -93,7 +110,7 @@ public class Duke {
         System.out.println("\t____________________________________________________________");
     }
 
-    public static void printTaskAssignment(int index){
+    public static void printTaskAssignment(int index) {
         int taskIndex = index + 1;
         System.out.println("\t____________________________________________________________");
         System.out.println("\t Got it. I've added this task:");
