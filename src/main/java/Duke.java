@@ -13,9 +13,6 @@ public class Duke {
     public static File f = new File(FILE_PATH);
 
     public static void main(String[] args) {
-        System.out.println("full path: " + f.getAbsolutePath());
-        System.out.println("file exists?: " + f.exists());
-
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
@@ -28,12 +25,22 @@ public class Duke {
         System.out.println("\tWhat can I do for you?");
         System.out.println("\t____________________________________________________________");
         //Load saved tasks from file
-        try{
-            loadProgress();
-        } catch (FileNotFoundException e){
-            System.out.println("\tFile not found!");
+        if(f.exists()){
+            try{
+                loadProgress();
+            } catch (FileNotFoundException e){
+                System.out.println("\tFile not found!");
+            }
+        } else {
+            try {
+                f.createNewFile();
+            } catch (IOException e){
+                System.out.println("\tFile not created");
+            }
         }
+
         Duke.executeCommand();
+
         //Save taskList to file
         try{
             writeToFile(FILE_PATH);
@@ -183,9 +190,6 @@ public class Duke {
     private static void writeToFile(String filePath) throws IOException {
         FileWriter fw = new FileWriter(filePath);
         Task a;
-        //T | 1 | read book
-        //D | 0 | return book | June 6th
-        //E | 0 | project meeting | Aug 6th 2-4pm
         for(int i = 0; i<taskCount; i++) {
             a = taskList[i];
             if(a.getTaskSymbol().equals("T")){
@@ -205,5 +209,4 @@ public class Duke {
         }
         fw.close();
     }
-
 }
