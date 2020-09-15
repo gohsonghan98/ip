@@ -1,9 +1,8 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Duke {
-    private static int taskCount;
-    private final static int MAX_TASK = 100;
-    private static Task[] taskList = new Task[MAX_TASK];
+    private static ArrayList<Task> taskList = new ArrayList<>();
 
     public static void main(String[] args) {
         String logo = " ____        _        \n"
@@ -36,21 +35,39 @@ public class Duke {
                 continue;
             }
             if (line.contains("done")) {
-                taskNumber = Integer.parseInt(line.replaceAll("[^\\d]", " ").trim());
-                taskList[taskNumber - 1].setDone();
+                taskNumber = Integer.parseInt(line.replaceAll("[^\\d]", " ").trim()) - 1;
+                try{
+                    taskList.get(taskNumber).setDone();
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("\t ☹ OOPS!!! I'm sorry, but there is no task in that entry :-()");
+                }
+                continue;
+            }
+            if (line.contains("delete")) {
+                try{
+                    taskNumber = Integer.parseInt(line.replaceAll("[^\\d]", " ").trim()) - 1;
+                    Task taskRemoved = taskList.get(taskNumber);
+                    taskList.remove(taskNumber);
+                    System.out.println("\t Noted. I've removed this task:");
+                    System.out.println("\t\t" + "[" + taskRemoved.getTaskSymbol() + "]" + "[" +
+                            taskRemoved.getStatusIcon() + "]" + " " + taskRemoved);
+
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("\t ☹ OOPS!!! I'm sorry, but there is no task in that entry :-()");
+                }
                 continue;
             }
             try {
                 storeText(line);
             } catch (DukeException e) {
-                System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-()");
+                System.out.println("\t ☹ OOPS!!! I'm sorry, but I don't know what that means :-()");
             } catch (StringIndexOutOfBoundsException e) {
                 if (line.startsWith("deadline")) {
-                    System.out.println("☹ OOPS!!! The description of a deadline cannot be empty.");
+                    System.out.println("\t ☹ OOPS!!! The description of a deadline cannot be empty.");
                 } else if (line.startsWith("event")) {
-                    System.out.println("☹ OOPS!!! The description of a event cannot be empty.");
+                    System.out.println("\t ☹ OOPS!!! The description of a event cannot be empty.");
                 } else if (line.startsWith("todo")) {
-                    System.out.println("☹ OOPS!!! The description of a todo cannot be empty.");
+                    System.out.println("\t ☹ OOPS!!! The description of a todo cannot be empty.");
                 }
             }
         }
@@ -69,17 +86,15 @@ public class Duke {
         if (text.startsWith("deadline")) {
             task = text.substring(9, text.indexOf(" \\by"));
             by = text.substring(text.indexOf("\\by") + 4, text.length());
-            taskList[taskCount] = new Deadline(task, by);
-            printTaskAssignment(taskCount);
-            taskCount++;
+            taskList.add(new Deadline(task, by));
+            printTaskAssignment(taskList.size() - 1);
 
         } else if (text.startsWith("event")) {
             //Assign event task
             task = text.substring(6, text.indexOf(" \\at"));
             at = text.substring(text.indexOf("\\at") + 4, text.length());
-            taskList[taskCount] = new Event(task, at);
-            printTaskAssignment(taskCount);
-            taskCount++;
+            taskList.add(new Event(task, at));
+            printTaskAssignment(taskList.size() - 1);
 
         } else if (text.startsWith("todo")) {
             //Assign todos task
@@ -87,9 +102,9 @@ public class Duke {
             if (task.length() < 1) {
                 throw new StringIndexOutOfBoundsException();
             }
-            taskList[taskCount] = new Todo(task);
-            printTaskAssignment(taskCount);
-            taskCount++;
+            taskList.add(new Todo(task));
+            printTaskAssignment(taskList.size() - 1);
+
         } else {
             throw new DukeException();
         }
@@ -114,8 +129,8 @@ public class Duke {
         int taskIndex = index + 1;
         System.out.println("\t____________________________________________________________");
         System.out.println("\t Got it. I've added this task:");
-        System.out.println("\t\t" + "[" + taskList[index].getTaskSymbol() + "]" + "[" + taskList[index].getStatusIcon()
-                + "]" + " " + taskList[index]);
+        System.out.println("\t\t" + "[" + taskList.get(index).getTaskSymbol() + "]" + "[" +
+                taskList.get(index).getStatusIcon() + "]" + " " + taskList.get(index));
         System.out.println("\t Now you have " + taskIndex + " tasks in the list.");
         System.out.println("\t____________________________________________________________");
     }
