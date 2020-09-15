@@ -1,8 +1,15 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Duke {
+    private static int taskCount;
     private static ArrayList<Task> taskList = new ArrayList<>();
+    private final static String FILE_PATH = "data/duke.txt";
+    public static File f = new File(FILE_PATH);
 
     public static void main(String[] args) {
         String logo = " ____        _        \n"
@@ -16,7 +23,29 @@ public class Duke {
         System.out.println("\tHello! I'm Duke");
         System.out.println("\tWhat can I do for you?");
         System.out.println("\t____________________________________________________________");
+        //Load saved tasks from file
+        if (f.exists()) {
+            try {
+                loadProgress();
+            } catch (FileNotFoundException e) {
+                System.out.println("\tFile not found!");
+            }
+        } else {
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                System.out.println("\tFile not created");
+            }
+        }
+
         Duke.executeCommand();
+
+        //Save taskList to file
+        try {
+            writeToFile(FILE_PATH);
+        } catch (IOException e) {
+            System.out.println("\tError saving tasks!");
+        }
     }
 
     // Recognise command passed to Duke
@@ -36,7 +65,7 @@ public class Duke {
             }
             if (line.contains("done")) {
                 taskNumber = Integer.parseInt(line.replaceAll("[^\\d]", " ").trim()) - 1;
-                try{
+                try {
                     taskList.get(taskNumber).setDone();
                 } catch (IndexOutOfBoundsException e) {
                     System.out.println("\t ☹ OOPS!!! I'm sorry, but there is no task in that entry :-()");
@@ -44,7 +73,7 @@ public class Duke {
                 continue;
             }
             if (line.contains("delete")) {
-                try{
+                try {
                     taskNumber = Integer.parseInt(line.replaceAll("[^\\d]", " ").trim()) - 1;
                     Task taskRemoved = taskList.get(taskNumber);
                     taskList.remove(taskNumber);
@@ -133,5 +162,66 @@ public class Duke {
                 taskList.get(index).getStatusIcon() + "]" + " " + taskList.get(index));
         System.out.println("\t Now you have " + taskIndex + " tasks in the list.");
         System.out.println("\t____________________________________________________________");
+    }
+
+/*    private static void printFileContents(String filePath) throws FileNotFoundException {
+        File f = new File(FILE_PATH);
+        Scanner s = new Scanner(f);
+        while (s.hasNext()) {
+            System.out.println(s.nextLine());
+        }
+    }*/
+
+    public static void loadProgress() throws FileNotFoundException {
+        //File contains something
+        String textInput;
+        Scanner s = new Scanner(f);
+        String[] taskArray = new String[4];
+        //Format of text: T | 1 | read book
+        while (s.hasNext()) {
+            textInput = s.nextLine();
+            taskArray = textInput.split(" \\| ");
+            if (taskArray[0].equalsIgnoreCase("T")) {
+                //Create Todo task
+                taskList.add(new Todo(taskArray[2]));
+                taskList.get(taskCount).setLoadStatus(taskArray[1]);
+                taskCount++;
+            }
+            if (taskArray[0].equalsIgnoreCase("D")) {
+                //Create Deadline Task
+                taskList.add(new Deadline(taskArray[2], taskArray[3]));
+                taskList.get(taskCount).setLoadStatus(taskArray[1]);
+                taskCount++;
+            }
+            if (taskArray[0].equalsIgnoreCase("E")) {
+                //Create Event Task
+                taskList.add(new Event(taskArray[2], taskArray[3]));
+                taskList.get(taskCount).setLoadStatus(taskArray[1]);
+                taskCount++;
+            }
+        }
+    }
+
+    private static void writeToFile(String filePath) throws IOException {
+        FileWriter fw = new FileWriter(filePath);
+        Task a;
+        for (int i = 0; i < taskList.size(); i++) {
+            a = taskList.get(i);
+            if (a.getTaskSymbol().equals("T")) {
+                fw.write(a.getTaskSymbol() + " | " + a.getStatusNumber() + " | " + a.toString());
+                fw.write("\n");
+            }
+            if (a.getTaskSymbol().equals("D")) {
+                fw.write(a.getTaskSymbol() + " | " + a.getStatusNumber() + " | " + a.toString() + " | " +
+                        a.getDate());
+                fw.write("\n");
+            }
+            if (a.getTaskSymbol().equals("E")) {
+                fw.write(a.getTaskSymbol() + " | " + a.getStatusNumber() + " | " + a.toString() + " | " +
+                        a.getDate());
+                fw.write("\n");
+            }
+        }
+        fw.close();
     }
 }
