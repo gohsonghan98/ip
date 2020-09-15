@@ -18,6 +18,14 @@ public class Task{
         System.out.println("\t____________________________________________________________");
     }
 
+    public void setLoadStatus(String s){
+        if(s == "1"){
+            isDone = true;
+        } else {
+            isDone = false;
+        }
+    }
+
     @Override
     public String toString(){
         return taskEntry;
@@ -27,7 +35,19 @@ public class Task{
         return statusIcon;
     }
 
+    public String getStatusNumber(){
+        if(isDone){
+            return "1";
+        } else {
+            return "0";
+        }
+    }
+
     public String getTaskSymbol(){
+        return null;
+    }
+
+    public String getDate(){
         return null;
     }
 }

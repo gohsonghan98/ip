@@ -1,11 +1,21 @@
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Duke {
     private static int taskCount;
     private final static int MAX_TASK = 100;
     private static Task[] taskList = new Task[MAX_TASK];
+    private final static String FILE_PATH = "data/duke.txt";
+    public static File f = new File(FILE_PATH);
 
     public static void main(String[] args) {
+        System.out.println("full path: " + f.getAbsolutePath());
+        System.out.println("file exists?: " + f.exists());
+
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
@@ -17,7 +27,19 @@ public class Duke {
         System.out.println("\tHello! I'm Duke");
         System.out.println("\tWhat can I do for you?");
         System.out.println("\t____________________________________________________________");
+        //Load saved tasks from file
+        try{
+            loadProgress();
+        } catch (FileNotFoundException e){
+            System.out.println("\tFile not found!");
+        }
         Duke.executeCommand();
+        //Save taskList to file
+        try{
+            writeToFile(FILE_PATH);
+        } catch (IOException e) {
+            System.out.println("\tError saving tasks!");
+        }
     }
 
     // Recognise command passed to Duke
@@ -119,4 +141,69 @@ public class Duke {
         System.out.println("\t Now you have " + taskIndex + " tasks in the list.");
         System.out.println("\t____________________________________________________________");
     }
+
+/*    private static void printFileContents(String filePath) throws FileNotFoundException {
+        File f = new File(FILE_PATH);
+        Scanner s = new Scanner(f);
+        while (s.hasNext()) {
+            System.out.println(s.nextLine());
+        }
+    }*/
+
+    public static void loadProgress() throws FileNotFoundException{
+        //File contains something
+        String textInput;
+        Scanner s = new Scanner(f);
+        String[] taskArray = new String[4];
+        //Format of text: T | 1 | read book
+        while(s.hasNext()){
+            textInput = s.nextLine();
+            taskArray = textInput.split(" \\| ");
+            if(taskArray[0].equalsIgnoreCase("T")){
+                //Create Todo task
+                taskList[taskCount] = new Todo(taskArray[2]);
+                taskList[taskCount].setLoadStatus(taskArray[1]);
+                taskCount++;
+            }
+            if(taskArray[0].equalsIgnoreCase("D")){
+                //Create Deadline Task
+                taskList[taskCount] = new Deadline(taskArray[2],taskArray[3]);
+                taskList[taskCount].setLoadStatus(taskArray[1]);
+                taskCount++;
+            }
+            if(taskArray[0].equalsIgnoreCase("E")){
+                //Create Event Task
+                taskList[taskCount] = new Event(taskArray[2],taskArray[3]);
+                taskList[taskCount].setLoadStatus(taskArray[1]);
+                taskCount++;
+            }
+        }
+    }
+
+    private static void writeToFile(String filePath) throws IOException {
+        FileWriter fw = new FileWriter(filePath);
+        Task a;
+        //T | 1 | read book
+        //D | 0 | return book | June 6th
+        //E | 0 | project meeting | Aug 6th 2-4pm
+        for(int i = 0; i<taskCount; i++) {
+            a = taskList[i];
+            if(a.getTaskSymbol().equals("T")){
+                fw.write(a.getTaskSymbol() + " | " + a.getStatusNumber() + " | " + a.toString());
+                fw.write("\n");
+            }
+            if(a.getTaskSymbol().equals("D")){
+                fw.write(a.getTaskSymbol() + " | " + a.getStatusNumber() + " | " + a.toString() + " | " +
+                        a.getDate());
+                fw.write("\n");
+            }
+            if(a.getTaskSymbol().equals("E")){
+                fw.write(a.getTaskSymbol() + " | " + a.getStatusNumber() + " | " + a.toString() + " | " +
+                        a.getDate());
+                fw.write("\n");
+            }
+        }
+        fw.close();
+    }
+
 }
