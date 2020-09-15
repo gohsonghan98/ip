@@ -2,7 +2,6 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Duke {
-    private static int taskCount;
     private static ArrayList<Task> taskList = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -36,13 +35,26 @@ public class Duke {
                 continue;
             }
             if (line.contains("done")) {
-                taskNumber = Integer.parseInt(line.replaceAll("[^\\d]", " ").trim());
+                taskNumber = Integer.parseInt(line.replaceAll("[^\\d]", " ").trim()) - 1;
                 try{
-                    taskList.get(taskNumber-1).setDone();
-                }   catch (IndexOutOfBoundsException e) {
+                    taskList.get(taskNumber).setDone();
+                } catch (IndexOutOfBoundsException e) {
                     System.out.println("\t ☹ OOPS!!! I'm sorry, but there is no task in that entry :-()");
                 }
+                continue;
+            }
+            if (line.contains("delete")) {
+                try{
+                    taskNumber = Integer.parseInt(line.replaceAll("[^\\d]", " ").trim()) - 1;
+                    Task taskRemoved = taskList.get(taskNumber);
+                    taskList.remove(taskNumber);
+                    System.out.println("\t Noted. I've removed this task:");
+                    System.out.println("\t\t" + "[" + taskRemoved.getTaskSymbol() + "]" + "[" +
+                            taskRemoved.getStatusIcon() + "]" + " " + taskRemoved);
 
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("\t ☹ OOPS!!! I'm sorry, but there is no task in that entry :-()");
+                }
                 continue;
             }
             try {
@@ -75,16 +87,14 @@ public class Duke {
             task = text.substring(9, text.indexOf(" \\by"));
             by = text.substring(text.indexOf("\\by") + 4, text.length());
             taskList.add(new Deadline(task, by));
-            printTaskAssignment(taskCount);
-            taskCount++;
+            printTaskAssignment(taskList.size() - 1);
 
         } else if (text.startsWith("event")) {
             //Assign event task
             task = text.substring(6, text.indexOf(" \\at"));
             at = text.substring(text.indexOf("\\at") + 4, text.length());
             taskList.add(new Event(task, at));
-            printTaskAssignment(taskCount);
-            taskCount++;
+            printTaskAssignment(taskList.size() - 1);
 
         } else if (text.startsWith("todo")) {
             //Assign todos task
@@ -93,8 +103,8 @@ public class Duke {
                 throw new StringIndexOutOfBoundsException();
             }
             taskList.add(new Todo(task));
-            printTaskAssignment(taskCount);
-            taskCount++;
+            printTaskAssignment(taskList.size() - 1);
+
         } else {
             throw new DukeException();
         }
