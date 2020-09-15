@@ -34,7 +34,7 @@ public class Duke {
             try {
                 f.createNewFile();
             } catch (IOException e) {
-                System.out.println("\tFile not found! File is not created.");
+                System.out.println("\tFile not created");
             }
         }
 
@@ -44,7 +44,7 @@ public class Duke {
         try {
             writeToFile(FILE_PATH);
         } catch (IOException e) {
-            System.out.println("\tUnable to save tasks!");
+            System.out.println("\tError saving tasks!");
         }
     }
 
