@@ -38,6 +38,11 @@ public class Parser {
             c.task[0] = fullCommand.replace("todo ", "");
             c.commandType = "todo";
             return c;
+        } else if (fullCommand.startsWith("find")) {
+            FindCommand c = new FindCommand();
+            c.task[0] = fullCommand.replace("find ", "");
+            c.commandType = "find";
+            return c;
         } else {
             throw new DukeException();
         }
