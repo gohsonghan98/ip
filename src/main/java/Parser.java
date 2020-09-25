@@ -1,5 +1,5 @@
 public class Parser {
-    //handles Todo, Deadline, Event, delete, done, list, bye commands
+    //Handles Todo, Deadline, Event, delete, done, list, bye commands
     public Parser() {
     }
 

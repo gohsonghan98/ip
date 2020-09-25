@@ -19,6 +19,7 @@ public class Duke {
         while (!isExit) {
             String fullCommand = ui.readCommand();
             ui.printDivider();
+            //Convert command from String type to Command type
             try {
                 Command c = Parser.parse(fullCommand);
                 c.execute(taskList, ui);
@@ -38,6 +39,7 @@ public class Duke {
             } catch (NumberFormatException e) {
                 ui.printNoTask();
             }
+            //Write to file after every command input
             try {
                 storage.writeFile(taskList);
             } catch (IOException e) {

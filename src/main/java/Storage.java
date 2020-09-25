@@ -66,6 +66,7 @@ public class Storage {
         }
     }
 
+    //Write task list back to file
     public void writeFile(TaskList taskList) throws IOException {
         try {
             fw = new FileWriter(f);
