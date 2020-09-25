@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Duke {
     private static int taskCount;
-    private static ArrayList<Task> taskList = new ArrayList<>();
+    private static TaskList taskList = new TaskList();
     private final static String FILE_PATH = "data/duke.txt";
     private final static String DIR_PATH = "data/";
     public static File f = new File(FILE_PATH);
@@ -18,7 +18,7 @@ public class Duke {
         ui.printWelcome();
 
         //Load saved tasks from file
-        if (f.exists()) {
+        /*if (f.exists()) {
             try {
                 loadProgress();
             } catch (FileNotFoundException e) {
@@ -34,72 +34,45 @@ public class Duke {
             } catch (IOException e) {
                 ui.printFileNotCreated();
             }
-        }
+        }*/
 
-        Duke.executeCommand();
-
+        Duke.run();
         //Save taskList to file
-        try {
+        /*try {
             writeToFile(FILE_PATH);
         } catch (IOException e) {
             ui.printSaveError();
-        }
+        }*/
     }
 
-    // Recognise command passed to Duke
-    public static void executeCommand() {
-        // Execute different response for different types of command
-        String line;
-        Scanner in = new Scanner(System.in);
-        int taskNumber;
-        while (true) {
-            line = in.nextLine();
-            if (line.equalsIgnoreCase("bye")) {
-                break;
-            }
-            if (line.equalsIgnoreCase("list")) {
-                ui.displayList(taskList);
-                continue;
-            }
-            if (line.contains("done")) {
-                taskNumber = Integer.parseInt(line.replaceAll("[^\\d]", " ").trim()) - 1;
-                try {
-                    taskList.get(taskNumber).setDone();
-                } catch (IndexOutOfBoundsException e) {
-                    ui.printNoTask();
-                }
-                continue;
-            }
-            if (line.contains("delete")) {
-                try {
-                    taskNumber = Integer.parseInt(line.replaceAll("[^\\d]", " ").trim()) - 1;
-                    Task taskRemoved = taskList.get(taskNumber);
-                    taskList.remove(taskNumber);
-                    ui.printTaskRemove(taskRemoved);
-
-                } catch (IndexOutOfBoundsException e) {
-                    ui.printNoTask();
-                }
-                continue;
-            }
+    public static void run() {
+        boolean isExit = false;
+        while (!isExit) {
+            String fullCommand = ui.readCommand();
+            ui.printDivider(); // show the divider line ("_______")
             try {
-                storeText(line);
-            } catch (DukeException e) {
-                ui.printInvalidInput();
-            } catch (StringIndexOutOfBoundsException e) {
-                if (line.startsWith("deadline")) {
-                    ui.printEmptyDeadline();
-                } else if (line.startsWith("event")) {
-                    ui.printEmptyEvent();
-                } else if (line.startsWith("todo")) {
+                Command c = Parser.parse(fullCommand);
+                c.execute(taskList, ui);
+                isExit = c.isExit();
+            } catch (DukeException e){
+                if(fullCommand.startsWith("todo")){
                     ui.printEmptyTodo();
+                } else {
+                    ui.printInvalidInput();
                 }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                if (fullCommand.startsWith("deadline")) {
+                    ui.printEmptyDeadline();
+                } else if (fullCommand.startsWith("event")) {
+                    ui.printEmptyEvent();
+                }
+            } catch (NumberFormatException e){
+                ui.printNoTask();
             }
         }
-        ui.printByeMessage();
     }
 
-    public static void storeText(String text) throws DukeException {
+    /*public static void storeText(String text) throws DukeException {
         String task;
         String at;
         String by;
@@ -182,5 +155,5 @@ public class Duke {
             }
         }
         fw.close();
-    }
+    }*/
 }

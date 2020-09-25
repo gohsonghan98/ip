@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Ui {
     public static final String DIVIDER = ("\t____________________________________________________________");
@@ -18,6 +19,7 @@ public class Ui {
             + "| | | | | | | |/ / _ \\\n"
             + "| |_| | |_| |   <  __/\n"
             + "|____/ \\__,_|_|\\_\\___|\n");
+    public Scanner in = new Scanner(System.in);
 
     public Ui() {
     }
@@ -110,4 +112,12 @@ public class Ui {
         System.out.println("\t Now you have " + taskIndex + " tasks in the list.");
         printDivider();
     }
+
+    public String readCommand(){
+        //check this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        return in.nextLine();
+
+    }
+
+
 }
