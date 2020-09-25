@@ -1,23 +1,24 @@
 public class AddCommand extends Command {
     public String commandType = null;
+
     @Override
-    public void execute(TaskList taskList, Ui ui){
+    public void execute(TaskList taskList, Ui ui) {
         if (commandType == "deadline") {
-            //MAYBE COMMENT ON THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            taskList.add(new Deadline(task[0], task[1]));
+            //Assign deadline task
+            taskList.add(new Deadline(task[TASK_DESCRIPTION], task[TASK_DO_BY]));
             ui.printTaskAssignment(taskList, taskList.size() - 1);
 
         } else if (commandType == "event") {
             //Assign event task
-            taskList.add(new Event(task[0], task[1]));
+            taskList.add(new Event(task[TASK_DESCRIPTION], task[TASK_DO_BY]));
             ui.printTaskAssignment(taskList, taskList.size() - 1);
 
         } else if (commandType == "todo") {
-            //Assign todos task
-            if (task[0].length() < 1) {
+            //Assign todo task
+            if (task[TASK_DESCRIPTION].length() < 1) {
                 throw new StringIndexOutOfBoundsException();
             }
-            taskList.add(new Todo(task[0]));
+            taskList.add(new Todo(task[TASK_DESCRIPTION]));
             ui.printTaskAssignment(taskList, taskList.size() - 1);
         }
     }

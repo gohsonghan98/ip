@@ -2,6 +2,7 @@ public class Task {
     public String taskEntry;
     public boolean isDone;
     public String statusIcon;
+    public Ui ui = new Ui();
 
     public Task(String taskEntry) {
         this.taskEntry = taskEntry;
@@ -12,10 +13,10 @@ public class Task {
     public void setDone() {
         isDone = true;
         statusIcon = "\u2713";
-        System.out.println("\t____________________________________________________________");
+        ui.printDivider();
         System.out.println("\t Nice! I've marked this task as done:");
         System.out.println("\t [" + statusIcon + "] " + taskEntry);
-        System.out.println("\t____________________________________________________________");
+        ui.printDivider();
     }
 
     public void setLoadStatus(String s) {

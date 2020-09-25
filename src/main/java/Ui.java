@@ -113,11 +113,9 @@ public class Ui {
         printDivider();
     }
 
-    public String readCommand(){
+    public String readCommand() {
         //check this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         return in.nextLine();
 
     }
-
-
 }

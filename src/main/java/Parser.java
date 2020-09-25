@@ -1,10 +1,10 @@
 public class Parser {
-    //handles command Todo, Deadline, Event, delete, done, list, bye
+    //handles Todo, Deadline, Event, delete, done, list, bye commands
     public Parser() {
     }
 
     public static Command parse(String fullCommand) throws DukeException {
-        if (fullCommand.startsWith("list")){
+        if (fullCommand.startsWith("list")) {
             ListCommand c = new ListCommand();
             return c;
         } else if (fullCommand.startsWith("bye")) {
@@ -32,10 +32,10 @@ public class Parser {
             return c;
         } else if (fullCommand.startsWith("todo")) {
             AddCommand c = new AddCommand();
-            if(fullCommand.length() <= 5){
+            if (fullCommand.length() <= 5) {
                 throw new DukeException();
             }
-            c.task[0] = fullCommand.replace("todo ","");
+            c.task[0] = fullCommand.replace("todo ", "");
             c.commandType = "todo";
             return c;
         } else {

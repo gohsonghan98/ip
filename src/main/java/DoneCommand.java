@@ -1,5 +1,6 @@
-public class DoneCommand extends Command{
+public class DoneCommand extends Command {
     public static int taskNumber = -1;
+
     @Override
     public void execute(TaskList taskList, Ui ui) {
         try {
