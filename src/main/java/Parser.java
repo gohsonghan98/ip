@@ -1,3 +1,6 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
 public class Parser {
     //Handles Todo, Deadline, Event, delete, done, list, bye commands
     public Parser() {
@@ -21,14 +24,26 @@ public class Parser {
         } else if (fullCommand.startsWith("event")) {
             AddCommand c = new AddCommand();
             c.task = fullCommand.split(" \\\\at ");
-            c.task[0] = c.task[0].replace("event ", "");
-            c.commandType = "event";
+            //Check if date format is valid
+            try{
+                LocalDate.parse(c.task[1]);
+                c.task[0] = c.task[0].replace("event ", "");
+                c.commandType = "event";
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format, please use the following format: YYYY-MM-DD");
+            }
             return c;
         } else if (fullCommand.startsWith("deadline")) {
             AddCommand c = new AddCommand();
             c.task = fullCommand.split(" \\\\by ");
-            c.task[0] = c.task[0].replace("deadline ", "");
-            c.commandType = "deadline";
+            //Check if date format is valid
+            try{
+                LocalDate.parse(c.task[1]);
+                c.task[0] = c.task[0].replace("deadline ", "");
+                c.commandType = "deadline";
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format, please use the following format: YYYY-MM-DD");
+            }
             return c;
         } else if (fullCommand.startsWith("todo")) {
             AddCommand c = new AddCommand();
@@ -37,6 +52,11 @@ public class Parser {
             }
             c.task[0] = fullCommand.replace("todo ", "");
             c.commandType = "todo";
+            return c;
+        } else if (fullCommand.startsWith("find")) {
+            FindCommand c = new FindCommand();
+            c.task[0] = fullCommand.replace("find ", "");
+            c.commandType = "find";
             return c;
         } else {
             throw new DukeException();

@@ -115,6 +115,5 @@ public class Ui {
 
     public String readCommand() {
         return in.nextLine();
-
     }
 }
