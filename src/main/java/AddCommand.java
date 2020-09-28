@@ -1,6 +1,12 @@
 public class AddCommand extends Command {
     public String commandType = null;
 
+    /**
+     * Adds task to taskList based on the type of task provided.
+     *
+     * @param taskList task list for new task to be added in.
+     * @param ui user interface.
+     */
     @Override
     public void execute(TaskList taskList, Ui ui) {
         if (commandType == "deadline") {

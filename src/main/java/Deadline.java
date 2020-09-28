@@ -1,6 +1,10 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents a deadline task. A <code>Deadline</code> object correspond to
+ * a task that has been assigned as a deadline.
+ */
 public class Deadline extends Task {
     public static final String TASK_SYMBOL = "D";
     public String by;
@@ -26,6 +30,12 @@ public class Deadline extends Task {
         return by;
     }
 
+    /**
+     * Returns date in MMM d yyyy format. Date is converted from MMM dd yyyy
+     * to MMM d yyyy format.
+     *
+     * @return MMM d yyyy format
+     */
     //Format: MMM dd yyyy
     public String getDateOutputFormat(){
         LocalDate date = LocalDate.parse(by);

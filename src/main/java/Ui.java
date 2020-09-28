@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Represents the user interface. A <code>Ui</code> object corresponds to an interface
+ * that handles interaction with users.
+ */
 public class Ui {
     public static final String DIVIDER = ("\t____________________________________________________________");
     public static final String FILE_NOT_FOUND = ("\t File not found!");

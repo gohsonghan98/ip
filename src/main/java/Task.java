@@ -1,3 +1,6 @@
+/**
+ * Represents a base class for all types of tasks.
+ */
 public class Task {
     public String taskEntry;
     public boolean isDone;

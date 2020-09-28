@@ -1,11 +1,21 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Represents a class that converts String inputs to Command object.
+ */
 public class Parser {
     //Handles Todo, Deadline, Event, delete, done, list, bye commands
     public Parser() {
     }
 
+    /**
+     * Returns a <code>Command</code> object based on String input.
+     *
+     * @param fullCommand String input given by user.
+     * @return Command type object.
+     * @throws DukeException Invalid String input.
+     */
     public static Command parse(String fullCommand) throws DukeException {
         if (fullCommand.startsWith("list")) {
             ListCommand c = new ListCommand();

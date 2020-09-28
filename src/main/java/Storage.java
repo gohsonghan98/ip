@@ -4,6 +4,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Represents a space to store and load files for Duke.
+ */
 public class Storage {
     public static File f;
     public static File dir;
@@ -16,6 +19,11 @@ public class Storage {
         dir = new File(fileDirectory);
     }
 
+    /**
+     * Loads tasks from saved file to task list.
+     *
+     * @param taskList
+     */
     public void load(TaskList taskList) {
         if (f.exists()) {
             try {
@@ -36,6 +44,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Transfer task records from file to task list.
+     *
+     * @param taskList task list to store task records from file.
+     * @throws FileNotFoundException File not found.
+     */
     private void readFile(TaskList taskList) throws FileNotFoundException {
         String textInput;
         Scanner s = new Scanner(f);

@@ -1,5 +1,8 @@
 import java.io.IOException;
 
+/**
+ * Main class to start Duke program.
+ */
 public class Duke {
     private static TaskList taskList = new TaskList();
     private final static String FILE_PATH = "data/duke.txt";
@@ -14,6 +17,10 @@ public class Duke {
         Duke.run();
     }
 
+    /**
+     * Runs duke program and saves input to file every cycle.
+     * Exit only when exit command is passed.
+     */
     public static void run() {
         boolean isExit = false;
         while (!isExit) {

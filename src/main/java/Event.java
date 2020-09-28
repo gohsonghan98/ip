@@ -1,6 +1,10 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents an event task. An <code>Event</code> object correspond to
+ * a task that has been assigned as an event.
+ */
 public class Event extends Task {
     public static final String TASK_SYMBOL = "E";
     public String at;
@@ -26,6 +30,12 @@ public class Event extends Task {
         return at;
     }
 
+    /**
+     * Returns date in MMM d yyyy format. Date is converted from MMM dd yyyy
+     * to MMM d yyyy format.
+     *
+     * @return MMM d yyyy format
+     */
     //Format: MMM dd yyyy
     public String getDateOutputFormat(){
         LocalDate date = LocalDate.parse(at);

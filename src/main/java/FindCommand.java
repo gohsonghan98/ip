@@ -1,6 +1,15 @@
+/**
+ * Represents a command to find and filter a task list based on given keyword.
+ */
 public class FindCommand extends Command {
     public String commandType = null;
 
+    /**
+     * Find and filter task list based on given keyword.
+     *
+     * @param taskList task list to be filtered by keyword.
+     * @param ui user interface.
+     */
     @Override
     public void execute(TaskList taskList, Ui ui) {
         int listIndex = 1;
