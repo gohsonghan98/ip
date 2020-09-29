@@ -14,7 +14,7 @@ public class FindCommand extends Command {
     public void execute(TaskList taskList, Ui ui) {
         int listIndex = 1;
         ui.printDivider();
-        System.out.println("Here are the matching tasks in your list:");
+        System.out.println("\t Here are the matching tasks in your list:");
         String query = task[TASK_DESCRIPTION].toUpperCase();
         for (Task t : taskList) {
             if (t.taskEntry.toUpperCase().contains(query)) {
