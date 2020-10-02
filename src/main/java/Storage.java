@@ -22,7 +22,7 @@ public class Storage {
     /**
      * Loads tasks from saved file to task list.
      *
-     * @param taskList
+     * @param taskList task list where tasks from saved file is loaded to.
      */
     public void load(TaskList taskList) {
         if (f.exists()) {
